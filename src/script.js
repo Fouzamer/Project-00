@@ -22,6 +22,7 @@ function checkMissingFields(data, requiredFields) {
     return true;
 }
 
+
 function verifyInput() {
     const data = collectFormData('sign-in-form');
     const requiredFields = ['username', 'password', 'confirmPassword'];
@@ -93,11 +94,15 @@ purposeButtons.forEach(button => {
 });
 
 document.getElementById('next-button').addEventListener('click', function() {
+
+    if (selectedPurposes.size === 0) {
+        alert('Please choose a purpose.');
+    } else {
     const purposesArray = Array.from(selectedPurposes);
     storeUserData({ purposes: purposesArray });
-    alert('Purposes stored successfully!');
+    alert('Purposes stored successfully!'); 
     cardIndex = 3; // Change to the next card index
-    nextCard(cardIndex);
+    nextCard(cardIndex); }
 });
 
 document.getElementById('profile-form').addEventListener('submit', function(event) {
