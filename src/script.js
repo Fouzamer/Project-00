@@ -39,8 +39,7 @@ function verifyInput() {
     }
 
     storeUserData({ username, password });
-    cardIndex = 2; // Change to the next card index
-    nextCard(cardIndex);
+    
     return true;
 }
 
@@ -77,6 +76,9 @@ document.getElementById('sign-in-form').addEventListener('submit', function(even
     }
 });
 
+// THIS IS WHERE THE SIGN UP PAGE ENDS //
+
+// Java for Purposes style //
 const purposeButtons = document.querySelectorAll('.purpose-button');
 const selectedPurposes = new Set();
 
@@ -93,6 +95,7 @@ purposeButtons.forEach(button => {
     });
 });
 
+// Java for User Alerts // 
 document.getElementById('next-button').addEventListener('click', function() {
 
     if (selectedPurposes.size === 0) {
@@ -101,19 +104,76 @@ document.getElementById('next-button').addEventListener('click', function() {
     const purposesArray = Array.from(selectedPurposes);
     storeUserData({ purposes: purposesArray });
     alert('Purposes stored successfully!'); 
-    cardIndex = 3; // Change to the next card index
+    cardIndex = 2; 
     nextCard(cardIndex); }
 });
 
-document.getElementById('profile-form').addEventListener('submit', function(event) {
-    event.preventDefault();
-    const data = collectFormData('profile-form');
-    const requiredFields = ['firstName', 'birthdate'];
 
-    if (!checkMissingFields(data, requiredFields)) {
-        return false;
+// Create a profile card // 
+document.getElementById('profile-form').addEventListener('submit', function(event) {
+    event.preventDefault(); // Prevent the default form submission behavior
+
+    
+    const formData = collectFormData('profile-form');
+
+    // Check for missing fields and alert if any are missing
+    if (!formData['first-name']) {
+        alert('Please write your first name');
+        return;
+    }
+    if (!formData['last-name']) {
+        alert('Please write your last name');
+        return;
+    }
+    
+    if (!formData['email']) {
+        alert('Please write your email');
+        return;
     }
 
-    storeUserData(data);
-    alert('Profile data stored successfully!');
+    // Store the data or do further processing here
+    storeUserData(formData);
+
+    // Move to card index 3
+    cardIndex = 3;
+    nextCard(cardIndex);
 });
+
+// Collect form data
+function collectFormData(formId) {
+    const form = document.getElementById(formId);
+    const data = {};
+    new FormData(form).forEach((value, key) => {
+        data[key] = value;
+    });
+    return data;
+}
+
+// Placeholder for storing user data
+function storeUserData(data) {
+    console.log('Data stored:', data);
+}
+
+// Placeholder for transitioning to the next card
+function nextCard(cardIndex) {
+    console.log('Moving to card:', cardIndex);
+    hiddenCard(); // Hide all cards
+    showCard(cardIndex); // Show the selected card
+}
+
+// Placeholder to hide all cards
+function hiddenCard() {
+    const cards = document.querySelectorAll('.card');
+    cards.forEach(card => card.style.display = 'none');
+}
+
+// Placeholder to show the selected card
+function showCard(cardIndex) {
+    const cardToShow = document.getElementById('card' + cardIndex);
+    if (cardToShow) {
+        cardToShow.style.display = 'block';
+    }
+
+}
+
+// Java for 
