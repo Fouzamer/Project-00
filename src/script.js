@@ -2,6 +2,8 @@ var cardIndex = 1;
 hiddenCard();
 showCard(cardIndex);
 
+
+// --------SIGN UP PAGE CARD 2------- // 
 function collectFormData(formId) {
     const form = document.getElementById(formId);
     const formData = new FormData(form);
@@ -44,7 +46,7 @@ function verifyInput() {
 }
 
 function hiddenCard() {
-    // Hide all the cards
+
     var cards = document.querySelectorAll('.card');
     cards.forEach(function(card) {
         card.style.display = 'none';
@@ -52,7 +54,7 @@ function hiddenCard() {
 }
 
 function showCard(n) {
-    // Show the card based on cardIndex
+   
     var cardToShow = document.getElementById('card' + n);
     if (cardToShow) {
         cardToShow.style.display = 'block';
@@ -60,23 +62,26 @@ function showCard(n) {
 }
 
 function nextCard(cardIndex) {
-    // Hide all the cards
+    
     hiddenCard();
 
-    // Show the card based on cardIndex
+   
     showCard(cardIndex);
 }
 
 document.getElementById('sign-in-form').addEventListener('submit', function(event) {
     event.preventDefault();
     if (verifyInput()) {
-        // Redirect or perform further actions
+        
         alert('Form submitted successfully!');
-        // Example: window.location.href = 'Main-Tab.html';
+       window.location.href = 'Main-Tab.html';
     }
 });
 
-// THIS IS WHERE THE SIGN UP PAGE ENDS //
+// ------ THIS IS WHERE THE SIGN UP PAGE ENDS -----//
+
+
+// -------CARD 1 : CHOOSE YOUR PURPOSE------ //
 
 // Java for Purposes style //
 const purposeButtons = document.querySelectorAll('.purpose-button');
@@ -109,14 +114,15 @@ document.getElementById('next-button').addEventListener('click', function() {
 });
 
 
-// Create a profile card // 
+// ----- CARD 3:Create a profile card // 
+
 document.getElementById('profile-form').addEventListener('submit', function(event) {
-    event.preventDefault(); // Prevent the default form submission behavior
+    event.preventDefault(); 
 
     
     const formData = collectFormData('profile-form');
 
-    // Check for missing fields and alert if any are missing
+   
     if (!formData['first-name']) {
         alert('Please write your first name');
         return;
@@ -131,15 +137,15 @@ document.getElementById('profile-form').addEventListener('submit', function(even
         return;
     }
 
-    // Store the data or do further processing here
+    
     storeUserData(formData);
 
-    // Move to card index 3
+   
     cardIndex = 3;
     nextCard(cardIndex);
 });
 
-// Collect form data
+
 function collectFormData(formId) {
     const form = document.getElementById(formId);
     const data = {};
@@ -149,25 +155,23 @@ function collectFormData(formId) {
     return data;
 }
 
-// Placeholder for storing user data
 function storeUserData(data) {
     console.log('Data stored:', data);
 }
 
-// Placeholder for transitioning to the next card
 function nextCard(cardIndex) {
     console.log('Moving to card:', cardIndex);
-    hiddenCard(); // Hide all cards
-    showCard(cardIndex); // Show the selected card
+    hiddenCard(); 
+    showCard(cardIndex); 
 }
 
-// Placeholder to hide all cards
+
 function hiddenCard() {
     const cards = document.querySelectorAll('.card');
     cards.forEach(card => card.style.display = 'none');
 }
 
-// Placeholder to show the selected card
+
 function showCard(cardIndex) {
     const cardToShow = document.getElementById('card' + cardIndex);
     if (cardToShow) {
@@ -176,4 +180,3 @@ function showCard(cardIndex) {
 
 }
 
-// Java for 
