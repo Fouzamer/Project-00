@@ -180,3 +180,22 @@ function showCard(cardIndex) {
 
 }
 
+// CONTACT US // 
+
+document.getElementById("ContactForm").addEventListener('submit', function(event) {
+    event.preventDefault();
+
+
+    const email = document.getElementById('email').value;
+    const message = document.getElementById('message').value;
+
+
+    if (email && message) {
+        alert('Thank you for your message!');
+
+      
+        window.location.href = 'Main-Tab.html'; 
+    } else {
+        alert('Please fill out both the email and message fields.');
+    }
+});
