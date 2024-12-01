@@ -14,58 +14,61 @@
         <!-- Days and Schedule -->
         <div class="grid grid-cols-7 gap-4 text-center">
             <!-- Column Titles -->
-            <div class="font-bold">MONDAY 27</div>
-            <div class="font-bold">TUESDAY 28</div>
-            <div class="font-bold">WEDNESDAY 29</div>
-            <div class="font-bold">THURSDAY 30</div>
-            <div class="font-bold">FRIDAY 31</div>
-            <div class="font-bold">SATURDAY 1</div>
-            <div class="font-bold">SUNDAY 2</div>
-
-            <!-- Boxes and Inputs for Each Day -->
-            <!-- Repeat for 7 Days -->
-            <div class="flex flex-col items-center space-y-2">
-                <div class="w-16 h-16 bg-blue-400 rounded-lg"></div>
-                <input type="text" class="w-16 border border-gray-300 rounded-lg p-1 focus:outline-none focus:ring-2 focus:ring-blue-400">
-                <input type="text" class="w-16 border border-gray-300 rounded-lg p-1 focus:outline-none focus:ring-2 focus:ring-blue-400">
-            </div>
-            <div class="flex flex-col items-center space-y-2">
-                <div class="w-16 h-16 bg-blue-400 rounded-lg"></div>
-                <input type="text" class="w-16 border border-gray-300 rounded-lg p-1 focus:outline-none focus:ring-2 focus:ring-blue-400">
-                <input type="text" class="w-16 border border-gray-300 rounded-lg p-1 focus:outline-none focus:ring-2 focus:ring-blue-400">
-            </div>
-            <div class="flex flex-col items-center space-y-2">
-                <div class="w-16 h-16 bg-blue-400 rounded-lg"></div>
-                <input type="text" class="w-16 border border-gray-300 rounded-lg p-1 focus:outline-none focus:ring-2 focus:ring-blue-400">
-                <input type="text" class="w-16 border border-gray-300 rounded-lg p-1 focus:outline-none focus:ring-2 focus:ring-blue-400">
-            </div>
-            <div class="flex flex-col items-center space-y-2">
-                <div class="w-16 h-16 bg-blue-400 rounded-lg"></div>
-                <input type="text" class="w-16 border border-gray-300 rounded-lg p-1 focus:outline-none focus:ring-2 focus:ring-blue-400">
-                <input type="text" class="w-16 border border-gray-300 rounded-lg p-1 focus:outline-none focus:ring-2 focus:ring-blue-400">
-            </div>
-            <div class="flex flex-col items-center space-y-2">
-                <div class="w-16 h-16 bg-blue-400 rounded-lg"></div>
-                <input type="text" class="w-16 border border-gray-300 rounded-lg p-1 focus:outline-none focus:ring-2 focus:ring-blue-400">
-                <input type="text" class="w-16 border border-gray-300 rounded-lg p-1 focus:outline-none focus:ring-2 focus:ring-blue-400">
-            </div>
-            <div class="flex flex-col items-center space-y-2">
-                <div class="w-16 h-16 bg-blue-400 rounded-lg"></div>
-                <input type="text" class="w-16 border border-gray-300 rounded-lg p-1 focus:outline-none focus:ring-2 focus:ring-blue-400">
-                <input type="text" class="w-16 border border-gray-300 rounded-lg p-1 focus:outline-none focus:ring-2 focus:ring-blue-400">
-            </div>
-            <div class="flex flex-col items-center space-y-2">
-                <div class="w-16 h-16 bg-blue-400 rounded-lg"></div>
-                <input type="text" class="w-16 border border-gray-300 rounded-lg p-1 focus:outline-none focus:ring-2 focus:ring-blue-400">
-                <input type="text" class="w-16 border border-gray-300 rounded-lg p-1 focus:outline-none focus:ring-2 focus:ring-blue-400">
-            </div>
+            <div id="Monday" class="font-bold bg-gray-100 p-2 rounded">MONDAY</div>
+            <div id="Tuesday" class="font-bold bg-gray-100 p-2 rounded">TUESDAY</div>
+            <div id="Wednesday" class="font-bold bg-gray-100 p-2 rounded">WEDNESDAY</div>
+            <div id="Thursday" class="font-bold bg-gray-100 p-2 rounded">THURSDAY</div>
+            <div id="Friday" class="font-bold bg-gray-100 p-2 rounded">FRIDAY</div>
+            <div id="Saturday" class="font-bold bg-gray-100 p-2 rounded">SATURDAY</div>
+            <div id="Sunday" class="font-bold bg-gray-100 p-2 rounded">SUNDAY</div>
         </div>
 
         <!-- Generate Button -->
-        <button 
-            class="mt-6 w-32 bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 rounded-lg">
-            GENERATE
-        </button>
+        <div class="mt-6 flex gap-4 justify-center">
+            <button 
+                class="w-32 bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 rounded-lg">
+                GENERATE
+            </button>
+
+            <!-- Clear Button -->
+            <button 
+                id="clear-tasks"
+                class="w-32 bg-gray-300 hover:bg-gray-400 text-black font-medium py-2 rounded-lg">
+                CLEAR
+            </button>
+        </div>
     </div>
+
+    <script>
+        // Populate tasks in calendar
+        document.addEventListener('DOMContentLoaded', () => {
+            const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+
+            tasks.forEach(task => {
+                const dayDiv = document.getElementById(task.day);
+                if (dayDiv) {
+                    const taskElement = document.createElement('div');
+                    taskElement.textContent = `- ${task.name}`;
+                    taskElement.classList.add('text-sm', 'text-gray-700', 'mt-2', 'bg-blue-200', 'p-1', 'rounded');
+                    dayDiv.appendChild(taskElement);
+                }
+            });
+        });
+
+        // Clear tasks from calendar and localStorage
+        document.getElementById('clear-tasks').addEventListener('click', () => {
+            if (confirm('Are you sure you want to clear all tasks?')) {
+                // Clear tasks from localStorage
+                localStorage.removeItem('tasks');
+
+                // Clear tasks from the calendar UI
+                document.querySelectorAll('.grid > div').forEach(dayDiv => {
+                    dayDiv.innerHTML = dayDiv.id.toUpperCase(); // Reset to original title (e.g., MONDAY)
+                });
+
+                alert('All tasks have been cleared.');
+            }
+        });
+    </script>
 </body>
 </html>

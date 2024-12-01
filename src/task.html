@@ -24,8 +24,27 @@
             <input 
                 type="text" 
                 placeholder="Task name" 
+                id="task-name"
                 class="mt-4 w-5/6 text-center border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
             >
+        </div>
+
+        <!-- Day Selector -->
+        <div class="mt-6">
+            <label for="task-day" class="block text-sm font-medium text-gray-700 mb-2">Select a Day</label>
+            <select 
+                id="task-day" 
+                class="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+            >
+                <option value="" disabled selected>Select a day</option>
+                <option value="Monday">Monday</option>
+                <option value="Tuesday">Tuesday</option>
+                <option value="Wednesday">Wednesday</option>
+                <option value="Thursday">Thursday</option>
+                <option value="Friday">Friday</option>
+                <option value="Saturday">Saturday</option>
+                <option value="Sunday">Sunday</option>
+            </select>
         </div>
 
         <!-- Create Task Button -->
@@ -34,5 +53,32 @@
             Create task
         </button>
     </div>
+
+    <script>
+        document.querySelector('button').addEventListener('click', () => {
+            const taskName = document.querySelector('#task-name').value.trim();
+            const taskDay = document.querySelector('#task-day').value;
+
+            if (taskName && taskDay) {
+                const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+                
+                // Add the task as an object with name and day
+                tasks.push({ name: taskName, day: taskDay });
+                
+                // Save tasks to localStorage
+                localStorage.setItem('tasks', JSON.stringify(tasks));
+                
+                // Show success message and clear fields
+                if (confirm('Thank you very much for the update! Do you want to add more tasks?')) {
+                    document.querySelector('#task-name').value = '';
+                    document.querySelector('#task-day').value = '';
+                } else {
+                    window.location.href = 'Main-Tab.html'; // Navigate to calendar page
+                }
+            } else {
+                alert('Please fill out both the task name and select a day.');
+            }
+        });
+    </script>
 </body>
 </html>
