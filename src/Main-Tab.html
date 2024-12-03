@@ -12,6 +12,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-16">
                 <div class="flex space-x-6">
+                    <a href="profil.html" class="text-gray-700 hover:text-blue-500 font-medium">Profil</a>
                     <a href="about.html" class="text-gray-700 hover:text-blue-500 font-medium">About Us</a>
                     <a href="contact.html" class="text-gray-700 hover:text-blue-500 font-medium">Contact Us</a>
                     <a href="calendar.html" class="text-gray-700 hover:text-blue-500 font-medium">Calendar</a>
@@ -43,7 +44,66 @@
             <div class="mt-4">
                 <h3 class="font-semibold mb-2">Today's tasks</h3>
                 <div id="daily-tasks" class="mt-4 space-y-2">
+                    <script>
+                        function displayTasks() {
+                            const tasksContainer = document.getElementById('daily-tasks');
+                            if (!tasksContainer) {
+                                console.error('Tasks container not found!');
+                                return;
+                            }
+                        
+                            tasksContainer.innerHTML = ''; // Clear previous content
+                        
+                            const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+                            const profileName = localStorage.getItem('profileName') || 'User'; // Default to 'User' if no name exists
+                        
+                            if (tasks.length === 0) {
+                                // Show "No tasks today" with profile name
+                                tasksContainer.innerHTML = `
+                                    <p class="text-gray-500 text-center">No tasks today, ${profileName}.</p>
+                                `;
+                                return;
+                            }
+                        
+                            // Render tasks if available
+                            tasks.forEach(task => {
+                                const taskElement = document.createElement('div');
+                                taskElement.className = 'bg-blue-100 p-2 rounded-md mb-2 flex justify-between items-center';
+                                taskElement.innerHTML = `
+                                    <span class="font-medium">${task.name}</span>
+                                    <span class="text-gray-500 text-sm">${task.day}</span>
+                                `;
+                                tasksContainer.appendChild(taskElement);
+                            });
+                        }
+                    </script>
                     <!-- Tasks will be dynamically loaded here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Carte centrale utilisateur -->
+        <div class="w-1/2 mx-8">
+            <div class="bg-white shadow-lg rounded-lg p-6">
+                <!-- En-tête utilisateur -->
+                <div class="mb-6 text-center">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">User Profile</h2>
+                    <div class="space-y-2">
+                        <p class="text-gray-600">Name: <span id="user-name" class="font-medium"></span></p>
+                        <p class="text-gray-600">Username: <span id="user-username" class="font-medium"></span></p>
+                        <p class="text-gray-600">Last Name: <span id="user-lastname" class="font-medium"></span></p>
+                    </div>
+                </div>
+
+                <!-- Section des tâches -->
+                <div class="mt-6">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">My Tasks</h3>
+                    <div id="user-tasks" class="space-y-3">
+                        <!-- Les tâches seront injectées ici -->
+                    </div>
+                    <div id="tasksContainer">
+                        <!-- Les tâches seront injectées ici -->
+                    </div>
                 </div>
             </div>
         </div>

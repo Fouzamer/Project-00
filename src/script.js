@@ -354,53 +354,24 @@ function addTask(day, taskName) {
         dayDiv.appendChild(taskElement);
     }
 }
-function displayTasks() {
-    console.log('Running displayTasks...');
-    const tasksContainer = document.getElementById('daily-tasks'); 
-    if (!tasksContainer) {
-        console.error('Tasks container not found!');
-        return;
-    }
 
-    tasksContainer.innerHTML = ''; 
-
-    const tasks = JSON.parse(localStorage.getItem('tasks')) || []; 
-    console.log('Tasks retrieved:', tasks);
-
-    if (tasks.length === 0) {
-        tasksContainer.innerHTML = '<p class="text-gray-500">No tasks available.</p>';
-        return;
-    }
-
-    tasks.forEach(task => {
-        console.log('Adding task:', task);
-        const taskElement = document.createElement('div');
-        taskElement.className = 'bg-blue-100 p-2 rounded-md mb-2 flex justify-between items-center';
-        taskElement.innerHTML = `
-            <span class="font-medium">${task.name}</span>
-            <span class="text-gray-500 text-sm">${task.day}</span>
-        `;
-        tasksContainer.appendChild(taskElement);
-    });
-}
 
 // Run displayTasks when the page loads
+document.addEventListener('DOMContentLoaded', displayTasks);
+
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('DOMContentLoaded event fired');
-    displayTasks();
-});
-
-function handleCalendarGeneration() {
-    const tasks = JSON.parse(localStorage.getItem('tasks')) || []; // Retrieve tasks from localStorage
-
-    if (tasks.length === 0) {
-        alert('No tasks found to generate the calendar. Please add tasks first.');
-        return;
+    const generateButton = document.getElementById('generate-calendar-btn');
+    if (generateButton) {
+        generateButton.addEventListener('click', () => {
+            const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+            if (tasks.length === 0) {
+                alert('No tasks found to generate the calendar.');
+                return;
+            }
+            window.location.href = 'Main-Tab.html';
+        });
     }
-
-    // Redirect to the main page (Main-Tab.html)
-    window.location.href = 'Main-Tab.html';
-}
+});
 
 // Attach the event listener to the button
 document.addEventListener('DOMContentLoaded', () => {
@@ -408,4 +379,105 @@ document.addEventListener('DOMContentLoaded', () => {
     if (generateButton) {
         generateButton.addEventListener('click', handleCalendarGeneration);
     }
+});
+
+// Dans script.js, ajouter :
+
+function updateUserProfile() {
+    const data = collectFormData('profile-form');
+    const requiredFields = ['username', 'email'];
+
+    if (!checkMissingFields(data, requiredFields)) {
+        return false;
+    }
+
+    // Récupérer l'utilisateur actuel
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    
+    // Mettre à jour les données
+    const updatedUser = {
+        ...currentUser,
+        username: data.username,
+        email: data.email
+    };
+
+    // Sauvegarder dans localStorage
+    localStorage.setItem('currentUser', JSON.stringify(updatedUser));
+    
+    // Mettre à jour aussi dans la liste des utilisateurs
+    const users = JSON.parse(localStorage.getItem('users')) || [];
+    const userIndex = users.findIndex(u => u.username === currentUser.username);
+    
+    if (userIndex !== -1) {
+        users[userIndex] = updatedUser;
+        localStorage.setItem('users', JSON.stringify(users));
+    }
+
+    alert('Profile updated successfully!');
+    // Redirection vers la page principale
+    window.location.href = 'Main-Tab.html';
+}
+document.addEventListener('DOMContentLoaded', function() {
+    // Charger les données utilisateur
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    if (currentUser) {
+        document.getElementById('user-name').textContent = currentUser.name || 'N/A';
+        document.getElementById('user-username').textContent = currentUser.username || 'N/A';
+        document.getElementById('user-lastname').textContent = currentUser.lastName || 'N/A';
+    }
+
+    // Charger les tâches
+    const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+    const userTasks = tasks.filter(task => task.userId === currentUser.username);
+    const tasksContainer = document.getElementById('user-tasks');
+
+    if (userTasks.length > 0) {
+        userTasks.forEach(task => {
+            tasksContainer.innerHTML += `
+                <div class="bg-gray-50 p-3 rounded-lg">
+                    <h4 class="font-medium text-gray-800">${task.title}</h4>
+                    <p class="text-gray-600 text-sm">${task.description}</p>
+                    <p class="text-gray-500 text-xs mt-1">Due: ${task.dueDate}</p>
+                </div>
+            `;
+        });
+    } else {
+        tasksContainer.innerHTML = '<p class="text-gray-500">No tasks found</p>';
+    }
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    const tasksContainer = document.getElementById('tasksContainer');
+    if (!tasksContainer) {
+        console.error('Tasks container not found!');
+        return;
+    }
+
+    tasksContainer.innerHTML = ''; // Vider le contenu précédent
+
+    const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+    const currentUser = JSON.parse(localStorage.getItem('currentUser')) || {};
+    const profileName = currentUser.name || 'User';
+
+    // Filtrer les tâches de l'utilisateur actuel
+    const userTasks = tasks.filter(task => task.userId === currentUser.username);
+
+    if (userTasks.length === 0) {
+        // Afficher un message si aucune tâche n'est trouvée
+        tasksContainer.innerHTML = `
+            <p class="text-gray-500 text-center">No tasks today, ${profileName}.</p>
+        `;
+        return;
+    }
+
+    // Afficher les tâches
+    userTasks.forEach(task => {
+        const taskElement = document.createElement('div');
+        taskElement.className = 'bg-blue-100 p-2 rounded-md mb-2 flex justify-between items-center';
+        taskElement.innerHTML = `
+            <span class="font-medium">${task.title}</span>
+            <span class="text-gray-500 text-sm">${task.dueDate}</span>
+        `;
+        tasksContainer.appendChild(taskElement);
+    });
 });
