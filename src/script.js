@@ -267,6 +267,17 @@ function handleCalendarGeneration() {
     }
 }
 
+const taskName = document.querySelector('#task-name').value.trim();
+const taskDay = document.querySelector('#task-day').value;
+
+if (taskName && taskDay) {
+    const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+    tasks.push({ name: taskName, day: taskDay });
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+}
+
+console.log(localStorage.getItem('tasks'));
+
 // Fonction de validation des données du calendrier
 function validateCalendarData() {
     // Ajoutez ici votre logique de validation
@@ -343,3 +354,58 @@ function addTask(day, taskName) {
         dayDiv.appendChild(taskElement);
     }
 }
+function displayTasks() {
+    console.log('Running displayTasks...');
+    const tasksContainer = document.getElementById('daily-tasks'); 
+    if (!tasksContainer) {
+        console.error('Tasks container not found!');
+        return;
+    }
+
+    tasksContainer.innerHTML = ''; 
+
+    const tasks = JSON.parse(localStorage.getItem('tasks')) || []; 
+    console.log('Tasks retrieved:', tasks);
+
+    if (tasks.length === 0) {
+        tasksContainer.innerHTML = '<p class="text-gray-500">No tasks available.</p>';
+        return;
+    }
+
+    tasks.forEach(task => {
+        console.log('Adding task:', task);
+        const taskElement = document.createElement('div');
+        taskElement.className = 'bg-blue-100 p-2 rounded-md mb-2 flex justify-between items-center';
+        taskElement.innerHTML = `
+            <span class="font-medium">${task.name}</span>
+            <span class="text-gray-500 text-sm">${task.day}</span>
+        `;
+        tasksContainer.appendChild(taskElement);
+    });
+}
+
+// Run displayTasks when the page loads
+document.addEventListener('DOMContentLoaded', () => {
+    console.log('DOMContentLoaded event fired');
+    displayTasks();
+});
+
+function handleCalendarGeneration() {
+    const tasks = JSON.parse(localStorage.getItem('tasks')) || []; // Retrieve tasks from localStorage
+
+    if (tasks.length === 0) {
+        alert('No tasks found to generate the calendar. Please add tasks first.');
+        return;
+    }
+
+    // Redirect to the main page (Main-Tab.html)
+    window.location.href = 'Main-Tab.html';
+}
+
+// Attach the event listener to the button
+document.addEventListener('DOMContentLoaded', () => {
+    const generateButton = document.querySelector('#generate-calendar-btn');
+    if (generateButton) {
+        generateButton.addEventListener('click', handleCalendarGeneration);
+    }
+});
