@@ -145,6 +145,51 @@ document.getElementById('profile-form').addEventListener('submit', function(even
     nextCard(cardIndex);
 });
 
+// Fonction pour afficher la date actuelle
+function updateCalendar() {
+    const date = new Date();
+    
+    // Afficher la date complète
+    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    document.getElementById('current-date').textContent = date.toLocaleDateString('fr-FR', options);
+    
+    // Afficher le jour
+    document.getElementById('current-day').textContent = date.getDate();
+    
+    // Afficher le mois
+    const monthOptions = { month: 'long' };
+    document.getElementById('current-month').textContent = date.toLocaleDateString('fr-FR', monthOptions);
+}
+
+// Exécuter la fonction au chargement de la page
+document.addEventListener('DOMContentLoaded', updateCalendar);
+
+// Exemple de tâches (à adapter selon votre base de données)
+function displayTasks() {
+    const tasksContainer = document.getElementById('daily-tasks');
+    // Nettoyer le conteneur
+    tasksContainer.innerHTML = '';
+    
+    // Exemple de tâches (à remplacer par vos données)
+    const tasks = [
+        { time: '09:00', title: 'Réunion équipe' },
+        { time: '14:00', title: 'Présentation' }
+    ];
+
+    // Afficher chaque tâche
+    tasks.forEach(task => {
+        const taskElement = document.createElement('div');
+        taskElement.className = 'bg-gray-50 p-2 rounded flex justify-between items-center';
+        taskElement.innerHTML = `
+            <span class="text-gray-600">${task.time}</span>
+            <span>${task.title}</span>
+        `;
+        tasksContainer.appendChild(taskElement);
+    });
+}
+
+// Exécuter l'affichage des tâches au chargement
+document.addEventListener('DOMContentLoaded', displayTasks);
 
 function collectFormData(formId) {
     const form = document.getElementById(formId);
@@ -199,3 +244,102 @@ document.getElementById("ContactForm").addEventListener('submit', function(event
         alert('Please fill out both the email and message fields.');
     }
 });
+
+// Fonction pour gérer la génération du calendrier
+function handleCalendarGeneration() {
+    const generateButton = document.querySelector('#generate-calendar-btn'); // Assurez-vous d'avoir cet ID sur votre bouton
+    
+    if (generateButton) {
+        generateButton.addEventListener('click', function(event) {
+            event.preventDefault();
+            
+            // Vérifier si toutes les données nécessaires sont présentes
+            if (validateCalendarData()) {
+                // Sauvegarder les données si nécessaire
+                saveCalendarData();
+                
+                // Rediriger vers la page principale
+                window.location.href = 'Main-Tab.html';
+            } else {
+                alert('Veuillez remplir toutes les informations nécessaires.');
+            }
+        });
+    }
+}
+
+// Fonction de validation des données du calendrier
+function validateCalendarData() {
+    // Ajoutez ici votre logique de validation
+    return true; // À modifier selon vos besoins
+}
+
+// Fonction pour sauvegarder les données du calendrier
+function saveCalendarData() {
+    // Ajoutez ici votre logique de sauvegarde
+}
+
+// Initialiser la gestion du calendrier au chargement de la page
+document.addEventListener('DOMContentLoaded', handleCalendarGeneration);
+
+// Remplacez le script existant par celui-ci
+document.addEventListener('DOMContentLoaded', () => {
+    console.log('Page chargée'); // Debug
+
+    // Récupérer les tâches
+    const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+    console.log('Tâches récupérées:', tasks); // Debug
+
+    // Afficher les tâches dans le calendrier
+    tasks.forEach(task => {
+        const dayId = task.day.toLowerCase();
+        const dayDiv = document.getElementById(dayId);
+        
+        console.log('Recherche du jour:', dayId); // Debug
+        console.log('Élément trouvé:', dayDiv); // Debug
+
+        if (dayDiv) {
+            const taskElement = document.createElement('div');
+            taskElement.textContent = `- ${task.name}`;
+            taskElement.classList.add('text-sm', 'text-gray-700', 'mt-2', 'bg-blue-200', 'p-1', 'rounded');
+            dayDiv.appendChild(taskElement);
+        }
+    });
+
+    // Gestionnaire pour effacer les tâches
+    const clearButton = document.getElementById('clear-tasks');
+    if (clearButton) {
+        clearButton.addEventListener('click', () => {
+            if (confirm('Voulez-vous vraiment effacer toutes les tâches ?')) {
+                // Effacer localStorage
+                localStorage.removeItem('tasks');
+
+                // Effacer l'affichage
+                const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+                days.forEach(day => {
+                    const dayDiv = document.getElementById(day);
+                    if (dayDiv) {
+                        dayDiv.innerHTML = day.toUpperCase();
+                    }
+                });
+
+                alert('Toutes les tâches ont été effacées.');
+            }
+        });
+    }
+});
+
+// Fonction pour ajouter une tâche (à utiliser depuis votre formulaire)
+function addTask(day, taskName) {
+    const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+    tasks.push({ day: day.toLowerCase(), name: taskName });
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+    
+    // Rafraîchir l'affichage
+    const dayDiv = document.getElementById(day.toLowerCase());
+    if (dayDiv) {
+        const taskElement = document.createElement('div');
+        taskElement.textContent = `- ${taskName}`;
+        taskElement.classList.add('text-sm', 'text-gray-700', 'mt-2', 'bg-blue-200', 'p-1', 'rounded');
+        dayDiv.appendChild(taskElement);
+    }
+}

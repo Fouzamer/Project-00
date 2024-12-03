@@ -24,31 +24,34 @@
     </nav>
 
     <!-- Content -->
-    <div class="flex justify-center items-center min-h-screen">
-        <div class="bg-white shadow-lg rounded-lg w-11/12 md:w-3/4 lg:w-2/3 p-6">
-            <div class="grid grid-cols-4 gap-4">
-                <!-- Top Row -->
-                <div class="col-span-2 bg-blue-300 h-24 rounded-lg"></div>
-                <div class="col-span-2 bg-blue-100 h-24 flex items-center justify-center rounded-lg">
-                    <span class="text-yellow-500 text-lg font-bold">0</span>
-                </div>
-
-                <!-- Middle Row -->
-                <div class="col-span-1 bg-blue-300 h-16 rounded-lg"></div>
-                <div class="col-span-1 bg-blue-300 h-16 rounded-lg"></div>
-                <div class="col-span-2 bg-blue-300 h-16 rounded-lg"></div>
-
-                <!-- Bottom Row -->
-                <div class="col-span-2 bg-white border border-gray-300 h-16 rounded-lg flex items-center justify-center">
-                    Add friends to see their progress
-                </div>
-                <div class="col-span-2 bg-white border border-gray-300 h-16 rounded-lg flex items-center justify-center">
-                    Add friends
-                </div>
+    <div class="flex min-h-screen p-6">
+        <!-- Colonne du calendrier journalier -->
+        <div class="w-1/4 bg-white shadow-lg rounded-lg p-4">
+            <!-- En-tête avec la date -->
+            <div class="mb-4 text-center">
+                <h2 class="text-xl font-bold text-gray-800">Today</h2>
+                <div id="current-date" class="text-gray-600"></div>
+            </div>
+            
+            <!-- Case du jour -->
+            <div class="bg-blue-50 rounded-lg p-4 mb-4">
+                <div id="current-day" class="text-4xl font-bold text-center text-blue-600"></div>
+                <div id="current-month" class="text-lg text-center text-gray-600"></div>
             </div>
 
-           
+            <!-- Liste des tâches -->
+            <div class="mt-4">
+                <h3 class="font-semibold mb-2">Today's tasks</h3>
+                <div id="daily-tasks" class="space-y-2">
+                    <!-- Les tâches seront générées en JS -->
+                </div>
+            </div>
         </div>
+
+        <!-- Colonne des tâches -->
     </div>
+
+    <script src="database.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
