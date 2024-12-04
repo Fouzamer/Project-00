@@ -330,20 +330,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Fonction pour ajouter une tâche (à utiliser depuis votre formulaire)
-function addTask(day, taskName) {
-    const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
-    tasks.push({ day: day.toLowerCase(), name: taskName });
-    localStorage.setItem('tasks', JSON.stringify(tasks));
-    
-    // Rafraîchir l'affichage
-    const dayDiv = document.getElementById(day.toLowerCase());
-    if (dayDiv) {
-        const taskElement = document.createElement('div');
-        taskElement.textContent = `- ${taskName}`;
-        taskElement.classList.add('text-sm', 'text-gray-700', 'mt-2', 'bg-blue-200', 'p-1', 'rounded');
-        dayDiv.appendChild(taskElement);
-    }
-}
+
 
 
 // Run displayTasks when the page loads

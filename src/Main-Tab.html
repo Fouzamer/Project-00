@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
+    <title>Main Tab</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-blue-100">
     <!-- Navigation Bar -->
-    <nav class="bg-white shadow-md">
+    <nav class="bg-white shadow-md fixed top-0 w-full">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-16">
                 <div class="flex space-x-6">
@@ -24,159 +24,89 @@
         </div>
     </nav>
 
-    <!-- Content -->
-    <div class="flex p-6">
-        <!-- Colonne du calendrier journalier -->
-        <div class="w-1/4 bg-white shadow-lg rounded-lg p-4">
-            <!-- En-tête avec la date -->
-            <div class="mb-4 text-center">
-                <div id="current-day" class="text-4xl font-bold text-center text-blue-600"></div>
-                <div id="current-month" class="text-lg text-center text-gray-600"></div>
-                <div id="current-date" class="text-gray-600"></div>
-            </div>
-            
-            <!-- Section des Tâches du Jour -->
-            <div class="bg-blue-50 rounded-lg p-4 mb-4">
-                <div id="current-day" class="text-4xl font-bold text-center text-blue-600"></div>
-                <div id="current-month" class="text-lg text-center text-gray-600"></div>
-                <!-- Conteneur pour les tâches du jour -->
-                <div id="today-tasks" class="mt-4">
-                    <!-- Les tâches du jour seront affichées ici -->
+    <!-- Main content container -->
+    <div class="pt-20 grid grid-cols-2 gap-6 p-6">
+        <!-- Left Column -->
+        <div class="space-y-6">
+            <!-- Calendar Card -->
+            <div class="bg-white shadow-lg rounded-lg p-4">
+                <h2 class="text-xl font-bold text-gray-800 mb-4 text-center">Calendar</h2>
+                <div class="bg-blue-50 rounded-lg p-4 mb-4">
+                    <div id="current-day" class="text-4xl font-bold text-center text-blue-600"></div>
+                    <div id="current-month" class="text-lg text-center text-gray-600"></div>
+                    <!-- Conteneur pour les tâches du jour -->
                 </div>
             </div>
 
-            <!-- Liste des tâches -->
-            <div class="mt-4">
-                <h3 class="font-semibold mb-2">This Week's Tasks</h3>
+            <!-- Today's Tasks Card -->
+            <div class="bg-white shadow-lg rounded-lg p-4">
+                <h2 class="text-xl font-bold text-gray-800 mb-4 text-center">Today's Tasks</h2>
+                <div class="">
+                    <div id="today-tasks" class="mt-4">
+                        <!-- Today's tasks will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Column -->
+        <div class="space-y-6">
+            <!-- Weekly Tasks Card -->
+            <div class="bg-white shadow-lg rounded-lg p-4">
+                <h2 class="text-xl font-bold text-gray-800 mb-4 text-center">This Week's Tasks</h2>
                 <div id="daily-tasks" class="mt-4 space-y-2">
-                    <script>
-                        document.addEventListener('DOMContentLoaded', () => {
-                            const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
-                        
-                            tasks.forEach(task => {
-                                const dayDiv = document.getElementById(task.day.toLowerCase());
-                                if (dayDiv) {
-                                    const taskElement = document.createElement('div');
-                                    taskElement.textContent = `- ${task.name}`;
-                                    taskElement.classList.add('text-sm', 'text-gray-700', 'mt-2', 'bg-blue-200', 'p-1', 'rounded');
-                                    dayDiv.appendChild(taskElement);
-                                }
-                            });
-                        });
-                        function displayTasks() {
-                            const tasksContainer = document.getElementById('daily-tasks');
-                            if (!tasksContainer) {
-                                console.error('Tasks container not found!');
-                                return;
-                            }
-                        
-                            tasksContainer.innerHTML = ''; // Clear previous content
-                        
-                            const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
-                            const profileName = localStorage.getItem('profileName') || 'User'; // Default to 'User' if no name exists
-                        
-                            if (tasks.length === 0) {
-                                // Show "No tasks today" with profile name
-                                tasksContainer.innerHTML = `
-                                    <p class="text-gray-500 text-center">No tasks today, ${profileName}.</p>
-                                `;
-                                return;
-                            }
-                        
-                            // Render tasks if available
-                            tasks.forEach(task => {
-                                const taskElement = document.createElement('div');
-                                taskElement.className = 'bg-blue-100 p-2 rounded-md mb-2 flex justify-between items-center';
-                                taskElement.innerHTML = `
-                                    <span class="font-medium">${task.name}</span>
-                                    <span class="text-gray-500 text-sm">${task.day}</span>
-                                `;
-                                tasksContainer.appendChild(taskElement);
-                            });
-                        }
-                    </script>
-                    <!-- Tasks will be dynamically loaded here -->
+                    <!-- Weekly tasks will be loaded here -->
                 </div>
             </div>
-        </div>
 
-        <!-- Carte centrale utilisateur -->
-        <div class="w-1/2 mx-8">
+            <!-- User Profile Card -->
             <div class="bg-white shadow-lg rounded-lg p-6">
-                <!-- En-tête utilisateur -->
                 <div class="mb-6 text-center">
-                    <h2 class="text-2xl font-bold text-gray-800 mb-4">Welcome Back <span id="user-name" class="font-bold"></span> <span id="user-lastname" class="font-bold"></span> !</h2>
-                    <div class="space-y-2">
-                        <script>
-                            document.addEventListener('DOMContentLoaded', function() {
-                                const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-                                if (currentUser) {
-                                    document.getElementById('user-name').textContent = currentUser.name || 'N/A';
-                                }
-                            });
-                        </script>
-                    </div>
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">Welcome Back <span id="user-name" class="font-bold"></span> <span id="user-lastname" class="font-bold"></span>!</h2>
                 </div>
-
-                <!-- Section des tâches -->
+                
                 <div class="mt-6 text-center">
-                    <h3 class="text-xl font-bold text-gray-800 mb-4">Here are your Upcoming Tasks </h3>
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">Here are your completed asks</h3>
                     <div id="user-tasks" class="space-y-3">
-                        <!-- Les tâches seront injectées ici -->
-                    </div>
-                    <div id="tasksContainer">
-                        <!-- Les tâches seront injectées ici -->
-                         <script>
-                            document.addEventListener('DOMContentLoaded', function() {
-                                const tasksContainer = document.getElementById('daily-tasks');
-                                const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-                            
-                                if (!tasksContainer || !currentUser) return;
-                            
-                                const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
-                                const userTasks = tasks.filter(task => task.userId === currentUser.username);
-                            
-                                if (userTasks.length === 0) {
-                                    tasksContainer.innerHTML = `<p class="text-gray-500 text-center">No tasks today, ${currentUser.name}.</p>`;
-                                    return;
-                                }
-                            
-                                userTasks.forEach(task => {
-                                    const taskElement = document.createElement('div');
-                                    taskElement.className = 'bg-blue-100 p-2 rounded-md mb-2 flex justify-between items-center';
-                                    taskElement.innerHTML = `<span class="font-medium">${task.name}</span><span class="text-gray-500 text-sm">${task.day}</span>`;
-                                    tasksContainer.appendChild(taskElement);
-                                });
-                            });
-                         </script>
                     </div>
                 </div>
             </div>
         </div>
-
-        <!-- Colonne des tâches -->
     </div>
 
-    <script src="database.js"></script>
-    <script src="script.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const tasksContainer = document.getElementById('daily-tasks');
-            if (!tasksContainer) return;
-
-            const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
-
-            if (tasks.length === 0) {
-                tasksContainer.innerHTML = `<p class="text-gray-500 text-center">Aucune tâche disponible.</p>`;
-                return;
+            // Afficher le nom de l'utilisateur
+            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            if (currentUser) {
+                document.getElementById('user-name').textContent = currentUser.name || 'N/A';
             }
 
-            tasks.forEach(task => {
-                const taskElement = document.createElement('div');
-                taskElement.className = 'bg-blue-100 p-2 rounded-md mb-2 flex justify-between items-center';
-                taskElement.innerHTML = `<span class="font-medium">${task.name}</span><span class="text-gray-500 text-sm">${task.day}</span>`;
-                tasksContainer.appendChild(taskElement);
-            });
+            // Afficher les tâches
+            const tasksContainer = document.getElementById('daily-tasks');
+            if (tasksContainer) {
+                const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+                
+                if (tasks.length === 0) {
+                    tasksContainer.innerHTML = `<p class="text-gray-500 text-center">No tasks today.</p>`;
+                } else {
+                    tasks.forEach(task => {
+                        const taskElement = document.createElement('div');
+                        taskElement.className = 'bg-blue-100 p-2 rounded-md mb-2 flex justify-between items-center';
+                        taskElement.innerHTML = `
+                            <span class="font-medium">${task.name}</span>
+                            <span class="text-gray-500 text-sm">${task.day}</span>
+                        `;
+                        tasksContainer.appendChild(taskElement);
+                    });
+                }
+            }
+
+            // Afficher la date actuelle
+            const now = new Date();
+            const options = { weekday: 'long', month: 'long', day: 'numeric' };
+            document.getElementById('current-day').textContent = now.toLocaleDateString('en-US', { weekday: 'long' });
+            document.getElementById('current-month').textContent = now.toLocaleDateString('en-US', { month: 'long', day: 'numeric' });
         });
 
         document.addEventListener('DOMContentLoaded', function() {
@@ -204,11 +134,10 @@
             } else {
                 todayTasks.forEach(task => {
                     const taskElement = document.createElement('div');
-                    // Utiliser les mêmes classes CSS que pour les tâches de la semaine
                     taskElement.className = 'bg-blue-100 p-2 rounded-md mb-2 flex justify-between items-center';
-                    taskElement.innerHTML = `
-                        <span class="font-medium">${task.name}</span>
-                    `;
+                        taskElement.innerHTML = `
+                            <span class="font-medium">${task.name}</span>
+                        `;
                     todayTasksContainer.appendChild(taskElement);
                 });
             }
