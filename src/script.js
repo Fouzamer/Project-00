@@ -278,16 +278,6 @@ if (taskName && taskDay) {
 
 console.log(localStorage.getItem('tasks'));
 
-// Fonction de validation des données du calendrier
-function validateCalendarData() {
-    // Ajoutez ici votre logique de validation
-    return true; // À modifier selon vos besoins
-}
-
-// Fonction pour sauvegarder les données du calendrier
-function saveCalendarData() {
-    // Ajoutez ici votre logique de sauvegarde
-}
 
 // Initialiser la gestion du calendrier au chargement de la page
 document.addEventListener('DOMContentLoaded', handleCalendarGeneration);
@@ -381,40 +371,23 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// Dans script.js, ajouter :
-
 function updateUserProfile() {
     const data = collectFormData('profile-form');
-    const requiredFields = ['username', 'email'];
 
+    const requiredFields = ['first-name', 'last-name', 'email'];
     if (!checkMissingFields(data, requiredFields)) {
-        return false;
+        return;
     }
 
-    // Récupérer l'utilisateur actuel
-    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-    
-    // Mettre à jour les données
-    const updatedUser = {
-        ...currentUser,
-        username: data.username,
-        email: data.email
+    const currentUser = { 
+        name: data['first-name'], 
+        lastName: data['last-name'], 
+        email: data['email'], 
+        username: localStorage.getItem('currentUsername') // Ensure this exists
     };
 
-    // Sauvegarder dans localStorage
-    localStorage.setItem('currentUser', JSON.stringify(updatedUser));
-    
-    // Mettre à jour aussi dans la liste des utilisateurs
-    const users = JSON.parse(localStorage.getItem('users')) || [];
-    const userIndex = users.findIndex(u => u.username === currentUser.username);
-    
-    if (userIndex !== -1) {
-        users[userIndex] = updatedUser;
-        localStorage.setItem('users', JSON.stringify(users));
-    }
-
+    localStorage.setItem('currentUser', JSON.stringify(currentUser));
     alert('Profile updated successfully!');
-    // Redirection vers la page principale
     window.location.href = 'Main-Tab.html';
 }
 document.addEventListener('DOMContentLoaded', function() {

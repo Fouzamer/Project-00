@@ -89,6 +89,16 @@
                 <div class="mb-6 text-center">
                     <h2 class="text-2xl font-bold text-gray-800 mb-4">User Profile</h2>
                     <div class="space-y-2">
+                        <script>
+                            document.addEventListener('DOMContentLoaded', function() {
+                                const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+                                if (currentUser) {
+                                    document.getElementById('user-name').textContent = currentUser.name || 'N/A';
+                                    document.getElementById('user-username').textContent = currentUser.username || 'N/A';
+                                    document.getElementById('user-lastname').textContent = currentUser.lastName || 'N/A';
+                                }
+                            });
+                        </script>
                         <p class="text-gray-600">Name: <span id="user-name" class="font-medium"></span></p>
                         <p class="text-gray-600">Username: <span id="user-username" class="font-medium"></span></p>
                         <p class="text-gray-600">Last Name: <span id="user-lastname" class="font-medium"></span></p>
@@ -103,6 +113,29 @@
                     </div>
                     <div id="tasksContainer">
                         <!-- Les tâches seront injectées ici -->
+                         <script>
+                            document.addEventListener('DOMContentLoaded', function() {
+                                const tasksContainer = document.getElementById('daily-tasks');
+                                const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+                            
+                                if (!tasksContainer || !currentUser) return;
+                            
+                                const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+                                const userTasks = tasks.filter(task => task.userId === currentUser.username);
+                            
+                                if (userTasks.length === 0) {
+                                    tasksContainer.innerHTML = `<p class="text-gray-500 text-center">No tasks today, ${currentUser.name}.</p>`;
+                                    return;
+                                }
+                            
+                                userTasks.forEach(task => {
+                                    const taskElement = document.createElement('div');
+                                    taskElement.className = 'bg-blue-100 p-2 rounded-md mb-2 flex justify-between items-center';
+                                    taskElement.innerHTML = `<span class="font-medium">${task.name}</span><span class="text-gray-500 text-sm">${task.day}</span>`;
+                                    tasksContainer.appendChild(taskElement);
+                                });
+                            });
+                         </script>
                     </div>
                 </div>
             </div>
