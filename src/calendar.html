@@ -6,37 +6,57 @@
     <title>First Generated Calendar</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-blue-100 h-screen flex items-center justify-center">
-    
-    <div class="bg-white w-11/12 md:w-3/4 lg:w-2/3 p-6 shadow-lg rounded-lg text-center">
-        <!-- Title -->
-        <h1 class="text-xl font-bold mb-6">FIRST GENERATED CALENDAR</h1>
-        
-        <!-- Days and Schedule -->
-        <div class="grid grid-cols-7 gap-4 mb-4">
-            <div id="monday" class="p-4 bg-white rounded shadow">MONDAY</div>
-            <div id="tuesday" class="p-4 bg-white rounded shadow">TUESDAY</div>
-            <div id="wednesday" class="p-4 bg-white rounded shadow">WEDNESDAY</div>
-            <div id="thursday" class="p-4 bg-white rounded shadow">THURSDAY</div>
-            <div id="friday" class="p-4 bg-white rounded shadow">FRIDAY</div>
-            <div id="saturday" class="p-4 bg-white rounded shadow">SATURDAY</div>
-            <div id="sunday" class="p-4 bg-white rounded shadow">SUNDAY</div>
+<body class="bg-blue-100">
+    <!-- Navigation Bar -->
+    <nav class="bg-white shadow-md fixed top-0 w-full">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex space-x-6">
+                    <a href="profil.html" class="text-gray-700 hover:text-blue-500 font-medium">Profil</a>
+                    <a href="about.html" class="text-gray-700 hover:text-blue-500 font-medium">About Us</a>
+                    <a href="contact.html" class="text-gray-700 hover:text-blue-500 font-medium">Contact Us</a>
+                    <a href="calendar.html" class="text-gray-700 hover:text-blue-500 font-medium">Calendar</a>
+                    <a href="index.html" class="text-gray-700 hover:text-blue-500 font-medium">Sign Up</a>
+                    <a href="task.html" class="text-gray-700 hover:text-blue-500 font-medium">Task</a>
+                    <a href="purpose.html" class="text-gray-700 hover:text-blue-500 font-medium">Purpose</a>
+                </div>
+            </div>
         </div>
+    </nav>
 
-        <!-- Generate Button -->
-        <div class="mt-6 flex gap-4 justify-center">
-            <button 
-                id="generate-calendar-btn"
-                class="w-32 bg-blue-500 hover:bg-blue-600 text-black font-medium py-2 rounded-lg">
-                GENERATE
-            </button>
+    <!-- Contenu principal avec padding-top -->
+    <div class="pt-20 flex items-center justify-center min-h-screen">
+        <!-- Votre contenu du calendrier existant -->
+        <div class="bg-white w-11/12 md:w-3/4 lg:w-2/3 p-6 shadow-lg rounded-lg text-center">
+            <!-- Title -->
+            <h1 class="text-xl font-bold mb-6">FIRST GENERATED CALENDAR</h1>
+            
+            <!-- Days and Schedule -->
+            <div class="grid grid-cols-7 gap-4 mb-4">
+                <div id="monday" class="p-4 bg-white rounded shadow">MONDAY</div>
+                <div id="tuesday" class="p-4 bg-white rounded shadow">TUESDAY</div>
+                <div id="wednesday" class="p-4 bg-white rounded shadow">WEDNESDAY</div>
+                <div id="thursday" class="p-4 bg-white rounded shadow">THURSDAY</div>
+                <div id="friday" class="p-4 bg-white rounded shadow">FRIDAY</div>
+                <div id="saturday" class="p-4 bg-white rounded shadow">SATURDAY</div>
+                <div id="sunday" class="p-4 bg-white rounded shadow">SUNDAY</div>
+            </div>
 
-            <!-- Clear Button -->
-            <button 
-                id="clear-tasks"
-                class="w-32 bg-gray-300 hover:bg-gray-400 text-black font-medium py-2 rounded-lg">
-                CLEAR
-            </button>
+            <!-- Generate Button -->
+            <div class="mt-6 flex gap-4 justify-center">
+                <button 
+                    id="generate-calendar-btn"
+                    class="w-32 bg-blue-500 hover:bg-blue-600 text-black font-medium py-2 rounded-lg">
+                    GENERATE
+                </button>
+
+                <!-- Clear Button -->
+                <button 
+                    id="clear-tasks"
+                    class="w-32 bg-gray-300 hover:bg-gray-400 text-black font-medium py-2 rounded-lg">
+                    CLEAR
+                </button>
+            </div>
         </div>
     </div>
 
