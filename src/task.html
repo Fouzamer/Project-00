@@ -62,7 +62,12 @@
         
             if (taskName && taskDay && currentUser) {
                 const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
-                tasks.push({ name: taskName, day: taskDay, userId: currentUser.username });
+                tasks.push({
+                    name: taskName,
+                    day: taskDay,
+                    userId: currentUser.username,
+                    completed: false // Ajout de l'attribut 'completed' par défaut
+                });
         
                 localStorage.setItem('tasks', JSON.stringify(tasks));
                 alert('Task added successfully!');
